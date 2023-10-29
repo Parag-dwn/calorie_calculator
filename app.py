@@ -90,13 +90,13 @@ def detection(image_path,filename):
     protein=[]
     fat=[]
     carbs=[]
+    quantity=[]
     df=pd.read_excel('D:\downloads\calorietracker-master\calorietracker-master\Food item calories .xlsx')
     vals={'n':0}
     for r in results:
         for i in (r.boxes.cls):
             name=classes[int(i)]
-            print(df[df['Name']==name])
-            item=df[df['Name']==name].values[0]
+            item=df[df['Name ']==name].values[0]
             vals['n']+=1
             Names.append(item[0])
             Calories.append(item[1])
@@ -233,7 +233,7 @@ def edit_food(food_id):
     
 @app.route('/view/<int:log_id>')
 def view(log_id):
-    log = Log.query(log_id)
+    log = Log.query.get_or_404(log_id)
     
     foods = Food.query.all()
     
@@ -260,9 +260,10 @@ def add_food_to_log(log_id):
         
         selected_food = request.form.get('food-select').lower()
         food = Food.query.get(int(selected_food))
+            
         log.foods.append(food)
-        
         db.session.commit()
+
 
         return redirect(url_for('view', log_id=log_id))
     
@@ -281,7 +282,6 @@ def remove_food_from_log(log_id, food_id):
 
     log.foods.remove(food)
     db.session.commit()
-
     return redirect(url_for('view', log_id=log_id))
 
 
