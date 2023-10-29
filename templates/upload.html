@@ -64,16 +64,18 @@
 						  <th scope="col">Fat</th>
 						  <th scope="col">Carbs</th>
 						  <th scope="col">Calories</th>
+						  <th scope="col">Quantity</th>
 						</tr>
 					  </thead>
-					  {% for dt in range(data.vals.n) %}
+					  {% for nm in data.keys() %}
 					  <tbody>
 						<tr>
-						  <th scope="row">{{data.Name[dt]}}</th>
-						  <td>{{data.protein[dt]}}</td>
-						  <td>{{data.fat[dt]}}</td>
-						  <td>{{data.carbs[dt]}}</td>
-						  <td>{{data.calories[dt]}}</td>
+						  <th scope="row">{{nm}}</th>
+						  <td>{{data[nm]['protein']}}</td>
+						  <td>{{data[nm]['fat']}}</td>
+						  <td>{{data[nm]['carbs']}}</td>
+						  <td>{{data[nm]['calories']}}</td>
+						  <td>{{data[nm]['quantity']}}</td>
 						</tr>
 						{% endfor %}
 				  </table>

@@ -85,33 +85,42 @@ def detection(image_path,filename):
     im.save(predict_folder+'/' +filename)    
     result=results[0]
     classes=model.names
-    Names=[]
-    Calories=[]
-    protein=[]
-    fat=[]
-    carbs=[]
-    quantity=[]
+    data={}
+    # Calories=[]
+    # protein=[]
+    # fat=[]
+    # carbs=[]
+    # quantity=[]
     df=pd.read_excel('D:\downloads\calorietracker-master\calorietracker-master\Food item calories .xlsx')
-    vals={'n':0}
     for r in results:
         for i in (r.boxes.cls):
             name=classes[int(i)]
-            item=df[df['Name ']==name].values[0]
-            vals['n']+=1
-            Names.append(item[0])
-            Calories.append(item[1])
-            protein.append(item[2])
-            fat.append(item[3])
-            carbs.append(item[4])
-    data={
-        'Name':Names,
-        'calories':Calories,
-        'protein':protein,
-        'fat':fat,
-        'carbs':carbs,
-        'vals':vals
+            if name in data:
+                data[name]['quantity']+=1
+            else:
+                item=df[df['Name ']==name].values[0]
+                data[name]={'quantity':1,
+                             'calories':item[1],
+                             'protein':item[2],
+                             'fat':item[3],
+                             'carbs':item[4]
+                             }
+            
+            # vals['n']+=1
+            # Names.append(item[0])
+            # Calories.append(item[1])
+            # protein.append(item[2])
+            # fat.append(item[3])
+            # carbs.append(item[4])
+    # data={
+    #     'Name':Names,
+    #     'calories':Calories,
+    #     'protein':protein,
+    #     'fat':fat,
+    #     'carbs':carbs,
+    #     'vals':vals
         
-    }
+    # }
     return data
 
 def add_meal(item):
